@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:scheduling_assistant/views/layout/main_layout.dart';
 import 'package:scheduling_assistant/views/calendar/index.dart';
+import 'package:scheduling_assistant/views/setting/index.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -25,7 +26,7 @@ final viewRouter = GoRouter(
         ),
         GoRoute(
           path: '/settings',
-          builder: (context, state) => const Text('settings'),
+          builder: (context, state) => const SettingsPage(),
         ),
       ],
     ),
