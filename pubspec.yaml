@@ -1,5 +1,5 @@
 name: scheduling_assistant
-description: "A new Flutter project."
+description: "咩の特供"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -52,6 +52,7 @@ dependencies:
   sqlite3_flutter_libs: ^0.6.0+eol
   path_provider: ^2.1.5
   path: ^1.9.1
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -110,3 +111,8 @@ flutter:
 #   user_defines:
 #     sqlite3:
 #       source: system
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"

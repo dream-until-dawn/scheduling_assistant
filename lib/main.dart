@@ -2,6 +2,11 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scheduling_assistant/routes/router.dart';
 
+// build inco
+// dart run flutter_launcher_icons
+// build android
+// flutter build apk --release
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
