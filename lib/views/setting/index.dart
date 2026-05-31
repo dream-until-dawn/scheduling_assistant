@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:scheduling_assistant/providers/settings_rovider.dart';
+import 'package:scheduling_assistant/providers/settings_provider.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -47,16 +47,16 @@ class SettingsPage extends ConsumerWidget {
               },
             ),
 
-            _Divider(),
+            // _Divider(),
 
-            _SwitchTile(
-              title: '显示颜色标识',
-              subtitle: '在日历排班上显示设置的颜色',
-              value: data.showColor,
-              onChanged: (v) {
-                ref.read(settingsProvider.notifier).toggleColor();
-              },
-            ),
+            // _SwitchTile(
+            //   title: '显示颜色标识',
+            //   subtitle: '在日历排班上显示设置的颜色',
+            //   value: data.showColor,
+            //   onChanged: (v) {
+            //     ref.read(settingsProvider.notifier).toggleColor();
+            //   },
+            // ),
           ],
         ),
 
