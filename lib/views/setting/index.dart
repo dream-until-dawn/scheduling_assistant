@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:scheduling_assistant/providers/settings_provider.dart';
+import 'package:scheduling_assistant/providers/calendar_provider.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -9,13 +10,19 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settingsAsync = ref.watch(settingsProvider);
-    if (settingsAsync.hasError) {
-      return Center(child: Text('加载失败: ${settingsAsync.error}'));
+    final calendarAsync = ref.watch(calendarProvider);
+    if (settingsAsync.hasError || calendarAsync.hasError) {
+      return Center(
+        child: Text(
+          '加载失败: ${settingsAsync.error ?? calendarAsync.error ?? '未知错误'}',
+        ),
+      );
     }
-    if (settingsAsync.isLoading) {
+    if (settingsAsync.isLoading || calendarAsync.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-    final data = settingsAsync.value!;
+    final settingData = settingsAsync.value!;
+    final calendarData = calendarAsync.value!;
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
@@ -30,7 +37,7 @@ class SettingsPage extends ConsumerWidget {
             _SwitchTile(
               title: '显示农历',
               subtitle: '在日历中显示农历信息',
-              value: data.showLunar,
+              value: settingData.showLunar,
               onChanged: (v) {
                 ref.read(settingsProvider.notifier).toggleLunar();
               },
@@ -41,7 +48,7 @@ class SettingsPage extends ConsumerWidget {
             _SwitchTile(
               title: '显示节气',
               subtitle: '在日历中显示二十四节气',
-              value: data.showSolarTerm,
+              value: settingData.showSolarTerm,
               onChanged: (v) {
                 ref.read(settingsProvider.notifier).toggleSolarTerm();
               },
@@ -86,12 +93,10 @@ class SettingsPage extends ConsumerWidget {
             _PickerTile(
               title: '默认模板',
               subtitle: '选择默认排班模板',
-              value: data.defaultTemplateId,
-              options: const [
-                PickerItem(0, '无'),
-                PickerItem(1, '模板 A'),
-                PickerItem(2, '模板 B'),
-              ],
+              value: settingData.defaultTemplateId,
+              options: calendarData.templateList
+                  .map((t) => PickerItem(t.id, t.name))
+                  .toList(),
               onChanged: (v) {
                 ref.read(settingsProvider.notifier).setDefaultTemplate(v);
               },

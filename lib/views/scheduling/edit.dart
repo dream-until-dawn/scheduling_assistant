@@ -46,8 +46,46 @@ class SchedulingEditPage extends ConsumerWidget {
     if (settingsAsync.isLoading || calendarAsync.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-    final settingData = settingsAsync.value!;
-    final calendarData = calendarAsync.value!;
+    // final settingData = settingsAsync.value!;
+    // final calendarData = calendarAsync.value!;
+
+    void submitForm() async {
+      final templateDetail = _childKey.currentState?.submitForm();
+      if (templateDetail == null) return; // 表单校验不通过，返回
+      // print('最终组装的 TemplateDetail 对象:');
+      // print('模板ID: ${templateDetail.templateId}');
+      // print('模板名称: ${templateDetail.name}');
+      // print('锚点日期: ${templateDetail.anchor?.date}');
+      // print('锚点对应周期天数: ${templateDetail.anchor?.cycleDay}');
+      // for (var day in templateDetail.days) {
+      //   print('第 ${day.dayIndex} 天:');
+      //   for (var shift in day.shifts) {
+      //     print('  班次名称: ${shift.name}');
+      //     print('  开始时间（分钟数）: ${shift.startMinute}');
+      //     print('  结束时间（分钟数）: ${shift.endMinute}');
+      //   }
+      // }
+      // 保存排班模板到数据库
+      final isSuccess = await ref
+          .read(calendarProvider.notifier)
+          .addTemplate(templateDetail);
+      if (isSuccess) {
+        // 保存成功
+        BotToast.showText(
+          text: '排班模板已保存',
+          duration: const Duration(seconds: 2),
+        );
+        if (context.mounted) {
+          context.go('/scheduling'); // 跳转回排班列表页
+        }
+      } else {
+        // 保存失败
+        BotToast.showText(
+          text: '排班模板保存失败',
+          duration: const Duration(seconds: 2),
+        );
+      }
+    }
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
@@ -85,9 +123,7 @@ class SchedulingEditPage extends ConsumerWidget {
                 const SizedBox(width: 8), // 两个按钮之间的间距
                 // 2. 主色文字按钮 (主要操作，如：新建、保存)
                 TextButton(
-                  onPressed: () {
-                    _childKey.currentState?.submitForm();
-                  },
+                  onPressed: submitForm,
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.blueAccent, // 主色调
                     padding: const EdgeInsets.symmetric(
@@ -184,7 +220,6 @@ class TemplateFormPageState extends State<TemplateFormPage> {
         );
       }).toList(),
     );
-    print('生成的 TemplateDetail: ${templateDetail.name}, 包含 ${_days.length} 天');
     return templateDetail; // 返回最终的 TemplateDetail 对象
   }
 
