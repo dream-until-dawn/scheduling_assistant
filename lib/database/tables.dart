@@ -92,7 +92,7 @@ class Settings extends Table {
   BoolColumn get showSolarTerm =>
       boolean().withDefault(const Constant(true))(); // 是否显示节气
   BoolColumn get showColor =>
-      boolean().withDefault(const Constant(true))(); // 是否显示颜色
+      boolean().withDefault(const Constant(false))(); // 是否显示颜色
   IntColumn get notifyBeforeMinutes =>
       integer().withDefault(const Constant(30))(); // 通知前分钟数
   @override

@@ -51,7 +51,7 @@ class SettingsPage extends ConsumerWidget {
 
             _SwitchTile(
               title: '显示颜色标识',
-              subtitle: '不同类型事件使用不同颜色',
+              subtitle: '在日历排班上显示设置的颜色',
               value: data.showColor,
               onChanged: (v) {
                 ref.read(settingsProvider.notifier).toggleColor();
@@ -60,25 +60,24 @@ class SettingsPage extends ConsumerWidget {
           ],
         ),
 
-        const SizedBox(height: 16),
+        // const SizedBox(height: 16),
 
-        _GroupCard(
-          title: '提醒设置',
-          children: [
-            _StepperTile(
-              title: '提前提醒时间',
-              subtitle: '事件开始前多少分钟提醒',
-              value: data.notifyBeforeMinutes,
-              onChanged: (v) {
-                ref.read(settingsProvider.notifier).setNotifyBeforeMinutes(v);
-              },
-              min: 0,
-              max: 120,
-              step: 5,
-            ),
-          ],
-        ),
-
+        // _GroupCard(
+        //   title: '提醒设置',
+        //   children: [
+        //     _StepperTile(
+        //       title: '提前提醒时间',
+        //       subtitle: '事件开始前多少分钟提醒',
+        //       value: data.notifyBeforeMinutes,
+        //       onChanged: (v) {
+        //         ref.read(settingsProvider.notifier).setNotifyBeforeMinutes(v);
+        //       },
+        //       min: 0,
+        //       max: 120,
+        //       step: 5,
+        //     ),
+        //   ],
+        // ),
         const SizedBox(height: 16),
 
         _GroupCard(
